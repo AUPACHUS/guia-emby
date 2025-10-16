@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Emby para Principiantes</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        nav {
+            background-color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .nav-link {
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .device-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        .device-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .device-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+            margin: 2rem 0;
+        }
+        
+        .step-item {
+            counter-increment: step-counter;
+            margin-bottom: 2rem;
+            padding-left: 3.5rem;
+            position: relative;
+        }
+        
+        .step-item:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: var(--secondary);
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        .mind-map-container {
+            width: 100%;
+            height: 500px;
+            background-color: var(--light);
+            border-radius: 8px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .node {
+            position: absolute;
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-width: 150px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .node-center {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--secondary);
+            color: white;
+            z-index: 10;
+        }
+        
+        .node-feature {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .node-device {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .connector {
+            position: absolute;
+            background-color: var(--primary);
+            height: 2px;
+            transform-origin: 0 0;
+            z-index: 1;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            margin: 2rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background-color: #c0392b;
+        }
+        
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .footer-link {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-link {
+                margin: 0.5rem 0;
+            }
+            
+            .device-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .mind-map-container {
+                height: 400px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-play-circle"></i>
+            </div>
+            <div>
+                <h1>Guía Completa de Emby</h1>
+                <p class="subtitle">Aprende qué es Emby y cómo instalarlo en todos tus dispositivos de forma sencilla</p>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <a href="#que-es" class="nav-link active">¿Qué es Emby?</a>
+            <a href="#caracteristicas" class="nav-link">Características</a>
+            <a href="#instalacion" class="nav-link">Instalación</a>
+            <a href="#dispositivos" class="nav-link">Dispositivos</a>
+            <a href="#mapa-mental" class="nav-link">Mapa Mental</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <section id="que-es">
+            <h2>¿Qué es Emby?</h2>
+            <p>Emby es un software de servidor multimedia que te permite organizar, gestionar y transmitir tu colección personal de películas, series de TV, música y fotos a cualquier dispositivo compatible.</p>
+            
+            <div class="video-container">
+                <iframe src="https://www.youtube-nocookie.com/embed/Y74wOdarw6M" title="Presentación de Emby" allowfullscreen></iframe>
+            </div>
+            
+            <p>Imagina tener tu propio Netflix personal con todo tu contenido multimedia, accesible desde cualquier lugar y en cualquier dispositivo. Eso es exactamente lo que ofrece Emby.</p>
+            
+            <h3>¿Cómo funciona?</h3>
+            <p>Emby funciona mediante un servidor que instalas en tu ordenador o NAS (Network Attached Storage). Este servidor organiza tu contenido multimedia y lo pone a disposición de las aplicaciones cliente de Emby, que puedes instalar en tus dispositivos (smartphones, tablets, smart TVs, etc.).</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>Servidor Central</h3>
+                    <p>Un único servidor gestiona toda tu biblioteca multimedia</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync"></i>
+                    </div>
+                    <h3>Sincronización</h3>
+                    <p>Sincroniza tu progreso de visualización entre dispositivos</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Múltiples Usuarios</h3>
+                    <p>Crea perfiles personalizados para cada miembro de la familia</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="caracteristicas">
+            <h2>Características Principales</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <h3>Organización Automática</h3>
+                    <p>Emby escanea automáticamente tu biblioteca multimedia y descarga metadatos como carátulas, sinopsis, información de reparto y calificaciones.</p>
+                </div>
+                <div class="step-item">
+                    <h3>Transcodificación en Tiempo Real</h3>
+                    <p>Convierte automáticamente tus archivos multimedia a formatos compatibles con tus dispositivos, garantizando una reproducción fluida.</p>
+                </div>
+                <div class="step-item">
+                    <h3>Acceso Remoto</h3>
+                    <p>Accede a tu biblioteca multimedia desde cualquier lugar con conexión a Internet, no solo desde tu red local.</p>
+                </div>
+                <div class="step-item">
+                    <h3>Controles Parentales</h3>
+                    <p>Establece restricciones de contenido por edad y crea perfiles seguros para los más pequeños.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="instalacion">
+            <h2>Guía de Instalación Paso a Paso</h2>
+            
+            <h3>Paso 1: Instalar el Servidor de Emby</h3>
+            <div class="step-list">
+                <div class="step-item">
+                    <h4>Descarga el Servidor</h4>
+                    <p>Visita la página oficial de Emby (<a href="https://emby.media" target="_blank">emby.media</a>) y descarga la versión del servidor compatible con tu sistema operativo (Windows, macOS, Linux o Docker).</p>
+                </div>
+                <div class="step-item">
+                    <h4>Ejecuta el Instalador</h4>
+                    <p>Abre el archivo descargado y sigue las instrucciones del asistente de instalación. En la mayoría de casos, simplemente haz clic en "Siguiente" hasta completar la instalación.</p>
+                </div>
+                <div class="step-item">
+                    <h4>Configuración Inicial</h4>
+                    <p>Una vez instalado, el servidor se abrirá automáticamente en tu navegador web. Sigue el asistente de configuración para:</p>
+                    <ul>
+                        <li>Establecer el idioma</li>
+                        <li>Crear una cuenta de administrador</li>
+                        <li>Agregar carpetas con tu contenido multimedia</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Paso 2: Instalar Aplicaciones Cliente</h3>
+            <p>Una vez que el servidor esté funcionando, instala las aplicaciones de Emby en tus dispositivos:</p>
+            
+            <div class="device-grid">
+                <div class="device-card">
+                    <div class="device-icon">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <h4>Windows</h4>
+                    <p>Descarga desde Microsoft Store o el sitio web de Emby</p>
+                    <a href="#" class="btn">Instalar</a>
+                </div>
+                <div class="device-card">
+                    <div class="device-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h4>macOS</h4>
+                    <p>Disponible en Mac App Store o desde el sitio web</p>
+                    <a href="#" class="btn">Instalar</a>
+                </div>
+                <div class="device-card">
+                    <div class="device-icon">
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <h4>Android</h4>
+                    <p>Encuéntrala en Google Play Store</p>
+                    <a href="#" class="btn">Instalar</a>
+                </div>
+                <div class="device-card">
+                    <div class="device-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h4>iOS</h4>
+                    <p>Disponible en App Store para iPhone y iPad</p>
+                    <a href="#" class="btn">Instalar</a>
+                </div>
+                <div class="device-card">
+                    <div class="device-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h4>Smart TV</h4>
+                    <p>Busca "Emby" en la tienda de aplicaciones de tu TV</p>
+                    <a href="#" class="btn">Instalar</a>
+                </div>
+                <div class="device-card">
+                    <div class="device-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h4>Consolas</h4>
+                    <p>Disponible para Xbox y PlayStation</p>
+                    <a href="#" class="btn">Instalar</a>
+                </div>
+            </div>
+            
+            <h3>Paso 3: Conectar Dispositivos al Servidor</h3>
+            <div class="step-list">
+                <div class="step-item">
+                    <h4>Inicia la Aplicación</h4>
+                    <p>Abre la aplicación de Emby en tu dispositivo.</p>
+                </div>
+                <div class="step-item">
+                    <h4>Busca el Servidor</h4>
+                    <p>La aplicación detectará automáticamente tu servidor de Emby en la red local.</p>
+                </div>
+                <div class="step-item">
+                    <h4>Inicia Sesión</h4>
+                    <p>Introduce las credenciales de tu cuenta de administrador o de usuario.</p>
+                </div>
+            </div>
+            
+            <div class="feature-card" style="text-align: left; margin-top: 2rem;">
+                <h3><i class="fas fa-lightbulb"></i> Consejo Importante</h3>
+                <p>Para acceder a tu servidor de Emby desde fuera de tu red local, necesitarás configurar el acceso remoto en la configuración del servidor. Esto generalmente implica configurar el reenvío de puertos en tu router o utilizar la función de acceso remoto automático de Emby.</p>
+            </div>
+        </section>
+        
+        <section id="dispositivos">
+            <h2>Dispositivos Compatibles</h2>
+            <p>Emby es compatible con una amplia gama de dispositivos, lo que te permite disfrutar de tu contenido en prácticamente cualquier pantalla:</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Ordenadores</h3>
+                    <p>Windows, macOS y Linux a través del navegador o aplicación nativa</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Móviles y Tablets</h3>
+                    <p>iOS y Android con aplicaciones optimizadas para touch</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h3>Smart TVs</h3>
+                    <p>Samsung, LG, Android TV, Roku, Amazon Fire TV y más</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Consolas de Videojuegos</h3>
+                    <p>Xbox One, Xbox Series X/S, PlayStation 4 y 5</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chromecast"></i>
+                    </div>
+                    <h3>Dispositivos de Streaming</h3>
+                    <p>Chromecast, Apple TV, NVIDIA Shield y otros</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>NAS</h3>
+                    <p>Synology, QNAP, Asustor y otras marcas populares</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="mapa-mental">
+            <h2>Mapa Mental de Emby</h2>
+            <p>Este mapa mental interactivo te ayudará a visualizar todas las funciones y posibilidades de Emby:</p>
+            
+            <div class="mind-map-container" id="mindMap">
+                <!-- Los nodos se generarán con JavaScript -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-accent" id="resetMap">Reiniciar Mapa</button>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Guía Completa de Emby - Creada para principiantes</p>
+            <div class="footer-links">
+                <a href="https://emby.media" class="footer-link" target="_blank">Sitio Oficial de Emby</a>
+                <a href="#" class="footer-link">Política de Privacidad</a>
+                <a href="#" class="footer-link">Términos de Uso</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Navegación suave
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remover clase active de todos los enlaces
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Agregar clase active al enlace clickeado
+                this.classList.add('active');
+                
+                // Desplazamiento suave a la sección
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                window.scrollTo({
+                    top: targetSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Mapa mental interactivo
+        const mindMap = document.getElementById('mindMap');
+        const nodes = [
+            { id: 'center', text: 'Emby', type: 'center', x: 50, y: 50 },
+            { id: 'server', text: 'Servidor', type: 'feature', x: 20, y: 20 },
+            { id: 'clients', text: 'Clientes', type: 'feature', x: 80, y: 20 },
+            { id: 'media', text: 'Contenido Multimedia', type: 'feature', x: 20, y: 80 },
+            { id: 'features', text: 'Características', type: 'feature', x: 80, y: 80 },
+            { id: 'windows', text: 'Windows', type: 'device', x: 5, y: 10 },
+            { id: 'mac', text: 'macOS', type: 'device', x: 35, y: 10 },
+            { id: 'linux', text: 'Linux', type: 'device', x: 20, y: 30 },
+            { id: 'android', text: 'Android', type: 'device', x: 70, y: 10 },
+            { id: 'ios', text: 'iOS', type: 'device', x: 95, y: 10 },
+            { id: 'smarttv', text: 'Smart TV', type: 'device', x: 80, y: 30 },
+            { id: 'movies', text: 'Películas', type: 'device', x: 5, y: 70 },
+            { id: 'tvshows', text: 'Series TV', type: 'device', x: 20, y: 95 },
+            { id: 'music', text: 'Música', type: 'device', x: 35, y: 70 },
+            { id: 'photos', text: 'Fotos', type: 'device', x: 50, y: 95 },
+            { id: 'sync', text: 'Sincronización', type: 'device', x: 70, y: 70 },
+            { id: 'transcoding', text: 'Transcodificación', type: 'device', x: 95, y: 70 },
+            { id: 'remote', text: 'Acceso Remoto', type: 'device', x: 80, y: 95 }
+        ];
+        
+        const connections = [
+            { from: 'center', to: 'server' },
+            { from: 'center', to: 'clients' },
+            { from: 'center', to: 'media' },
+            { from: 'center', to: 'features' },
+            { from: 'server', to: 'windows' },
+            { from: 'server', to: 'mac' },
+            { from: 'server', to: 'linux' },
+            { from: 'clients', to: 'android' },
+            { from: 'clients', to: 'ios' },
+            { from: 'clients', to: 'smarttv' },
+            { from: 'media', to: 'movies' },
+            { from: 'media', to: 'tvshows' },
+            { from: 'media', to: 'music' },
+            { from: 'media', to: 'photos' },
+            { from: 'features', to: 'sync' },
+            { from: 'features', to: 'transcoding' },
+            { from: 'features', to: 'remote' }
+        ];
+        
+        function createMindMap() {
+            // Limpiar el contenedor
+            mindMap.innerHTML = '';
+            
+            // Crear conectores
+            connections.forEach(conn => {
+                const fromNode = nodes.find(n => n.id === conn.from);
+                const toNode = nodes.find(n => n.id === conn.to);
+                
+                if (fromNode && toNode) {
+                    const connector = document.createElement('div');
+                    connector.className = 'connector';
+                    
+                    // Calcular posición y tamaño
+                    const fromX = (fromNode.x / 100) * mindMap.offsetWidth;
+                    const fromY = (fromNode.y / 100) * mindMap.offsetHeight;
+                    const toX = (toNode.x / 100) * mindMap.offsetWidth;
+                    const toY = (toNode.y / 100) * mindMap.offsetHeight;
+                    
+                    const length = Math.sqrt(Math.pow(toX - fromX, 2) + Math.pow(toY - fromY, 2));
+                    const angle = Math.atan2(toY - fromY, toX - fromX) * 180 / Math.PI;
+                    
+                    connector.style.width = `${length}px`;
+                    connector.style.left = `${fromX}px`;
+                    connector.style.top = `${fromY}px`;
+                    connector.style.transform = `rotate(${angle}deg)`;
+                    
+                    mindMap.appendChild(connector);
+                }
+            });
+            
+            // Crear nodos
+            nodes.forEach(node => {
+                const nodeElement = document.createElement('div');
+                nodeElement.className = `node node-${node.type}`;
+                nodeElement.id = `node-${node.id}`;
+                nodeElement.textContent = node.text;
+                
+                // Posicionar el nodo
+                nodeElement.style.left = `${node.x}%`;
+                nodeElement.style.top = `${node.y}%`;
+                
+                // Añadir evento de clic
+                nodeElement.addEventListener('click', function() {
+                    alert(`Has hecho clic en: ${node.text}`);
+                });
+                
+                mindMap.appendChild(nodeElement);
+            });
+        }
+        
+        // Inicializar mapa mental
+        window.addEventListener('load', createMindMap);
+        window.addEventListener('resize', createMindMap);
+        
+        // Botón para reiniciar el mapa
+        document.getElementById('resetMap').addEventListener('click', function() {
+            createMindMap();
+        });
+        
+        // Detectar sección activa en el scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
